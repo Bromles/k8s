@@ -4,4 +4,4 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo update
 
 kubectl create ns monitoring
-helm install --namespace monitoring kube-prometheus-stack prometheus-community/kube-prometheus-stack
+helm install --namespace monitoring -f values.yaml kube-prometheus-stack prometheus-community/kube-prometheus-stack
