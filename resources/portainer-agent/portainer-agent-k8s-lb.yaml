@@ -28,7 +28,7 @@ metadata:
   name: portainer-agent
   namespace: portainer
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: portainer-agent
   ports:
@@ -78,3 +78,24 @@ spec:
         ports:
         - containerPort: 9001
           protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  name: portainer-ingress
+  namespace: portainer
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: portainer.bromles.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: portainer-agent
+            port:
+              number: 9001
