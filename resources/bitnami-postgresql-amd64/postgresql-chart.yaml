@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: postgresql
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: postgresql
+  namespace: kube-system
+spec:
+  repo: https://charts.bitnami.com/bitnami
+  chart: postgresql
+  targetNamespace: postgresql
+  set:
+    image.tag: "15.1.0"
+    service.type: "LoadBalancer"
+    global.postgresql.auth.username: "bromles"
+    global.postgresql.auth.database: "bromles"
+    global.postgresql.auth.password: "105021"
