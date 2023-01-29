@@ -22,7 +22,7 @@ metadata:
   labels:
     app: postgres
 spec:
-  storageClassName: local-path
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:
