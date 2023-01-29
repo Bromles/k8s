@@ -15,4 +15,3 @@ spec:
   set:
     service.type: "LoadBalancer"
     tls.force: "true"
-    persistence.storageClass: "longhorn"

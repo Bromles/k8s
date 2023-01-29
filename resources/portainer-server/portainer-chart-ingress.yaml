@@ -20,4 +20,3 @@ spec:
     ingress.annotations.nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     ingress.hosts[0].host: "portainer.rock-5b.local"
     ingress.hosts[0].paths[0].path: "/"
-    persistence.storageClass: "longhorn"
