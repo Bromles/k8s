@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: portainer
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: portainer
+  namespace: kube-system
+spec:
+  chart: portainer
+  targetNamespace: portainer
+  repo: https://portainer.github.io/k8s/
+  set:
+    service.type: "LoadBalancer"
+    tls.force: "true"
