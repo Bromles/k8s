@@ -1,0 +1,89 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: keycloak
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keycloak-config
+  namespace: keycloak
+  labels:
+    app: keycloak
+data:
+  KEYCLOAK_ADMIN: "bromles"
+  KEYCLOAK_ADMIN_PASSWORD: "105021"
+  KC_HEALTH_ENABLED: "true"
+  KC_METRICS_ENABLED: "true"
+  KC_HOSTNAME_STRICT: "false"
+  KC_PROXY: "edge"
+  KC_DB: "postgres"
+  KC_DB_URL: "jdbc:postgresql://192.168.5.202:5432/keycloak"
+  KC_DB_USERNAME: "keycloak"
+  KC_DB_PASSWORD: "105021"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  namespace: keycloak
+spec:
+  selector:
+    matchLabels:
+      app: keycloak
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:20.0
+          imagePullPolicy: IfNotPresent
+          args: [ "start" ]
+          envFrom:
+            - configMapRef:
+                name: keycloak-config
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: https
+              containerPort: 8443
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak-service
+  namespace: keycloak
+  labels:
+    app: keycloak
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 53582
+      targetPort: 8080
+  selector:
+    app: keycloak
