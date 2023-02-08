@@ -33,7 +33,7 @@ metadata:
   name: redis-ss
   namespace: redis
 spec:
-  serviceName: "redis-service"
+  serviceName: redis-service
   replicas: 1
   selector:
     matchLabels:
@@ -87,7 +87,7 @@ spec:
     - metadata:
         name: redis-claim
       spec:
-        accessModes: [ "ReadWriteOnce" ]
+        accessModes: [ ReadWriteOnce ]
         resources:
           requests:
             storage: 10Gi
@@ -95,7 +95,7 @@ spec:
     - metadata:
         name: redis-data
       spec:
-        accessModes: [ "ReadWriteOnce" ]
+        accessModes: [ ReadWriteOnce ]
         resources:
           requests:
             storage: 10Gi

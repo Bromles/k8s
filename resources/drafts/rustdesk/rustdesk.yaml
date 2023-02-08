@@ -1,0 +1,126 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: rustdesk
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rustdesk-hbbs-pvc
+  namespace: rustdesk
+  labels:
+    app: rustdesk
+spec:
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rustdesk-hbbr-pvc
+  namespace: rustdesk
+  labels:
+    app: rustdesk
+spec:
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rustdesk
+  namespace: rustdesk
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: rustdesk
+  template:
+    metadata:
+      labels:
+        name: rustdesk
+    spec:
+      containers:
+        - name: rustdesk-hbbs
+          image: rustdesk/rustdesk-server:latest-arm64v8
+          imagePullPolicy: IfNotPresent
+          command:
+            - "hbbs"
+            - "-r localhost:21117"
+          volumeMounts:
+            - name: hbbs
+              mountPath: /root
+          ports:
+            - containerPort: 21115
+              protocol: TCP
+            - containerPort: 21116
+              protocol: TCP
+            - containerPort: 21116
+              protocol: UDP
+            - containerPort: 21118
+              protocol: TCP
+        - name: rustdesk-hbbr
+          image: rustdesk/rustdesk-server:latest-arm64v8
+          imagePullPolicy: IfNotPresent
+          command:
+            - "hbbr"
+          volumeMounts:
+            - name: hbbr
+              mountPath: /root
+          ports:
+            - containerPort: 21117
+              protocol: TCP
+            - containerPort: 21119
+              protocol: TCP
+      volumes:
+        - name: hbbs
+          persistentVolumeClaim:
+            claimName: rustdesk-hbbs-pvc
+        - name: hbbr
+          persistentVolumeClaim:
+            claimName: rustdesk-hbbr-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rustdesk-service
+  namespace: rustdesk
+  labels:
+    app: rustdesk
+spec:
+  ports:
+    - port: 21115
+      targetPort: 21115
+      protocol: TCP
+      name: hbbs-1
+    - port: 21116
+      targetPort: 21116
+      protocol: TCP
+      name: hbbs-2
+    - port: 21116
+      targetPort: 21116
+      protocol: UDP
+      name: hbbs-3
+    - port: 21117
+      targetPort: 21117
+      protocol: TCP
+      name: hbbr-1
+    - port: 21118
+      targetPort: 21118
+      protocol: TCP
+      name: hbbs-4
+    - port: 21119
+      targetPort: 21119
+      protocol: TCP
+      name: hbbr-2
+  type: LoadBalancer
+  selector:
+    app: rustdesk
