@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: portainer
+  name: portainer-agent
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: portainer-sa-clusteradmin
-  namespace: portainer
+  namespace: portainer-agent
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -20,15 +20,15 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: portainer-sa-clusteradmin
-  namespace: portainer
+  namespace: portainer-agent
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: portainer-agent
-  namespace: portainer
+  namespace: portainer-agent
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: portainer-agent
   ports:
@@ -41,7 +41,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: portainer-agent-headless
-  namespace: portainer
+  namespace: portainer-agent
 spec:
   clusterIP: None
   selector:
@@ -51,7 +51,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: portainer-agent
-  namespace: portainer
+  namespace: portainer-agent
 spec:
   selector:
     matchLabels:
@@ -85,7 +85,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
   name: portainer-ingress
-  namespace: portainer
+  namespace: portainer-agent
 spec:
   ingressClassName: nginx
   rules:
