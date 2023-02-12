@@ -11,7 +11,7 @@ metadata:
   labels:
     app: meilisearch
 data:
-  MEILI_MASTER_KEY: "masterKey"
+  MEILI_MASTER_KEY: "veryLongAndVerySecretMasterKey"
   MEILI_NO_ANALYTICS: "true"
 ---
 apiVersion: v1
@@ -78,7 +78,7 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - port: 7070
-      targetPort: 7070
+    - port: 7700
+      targetPort: 7700
   selector:
     app: meilisearch
