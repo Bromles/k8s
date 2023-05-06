@@ -15,6 +15,19 @@ data:
   POSTGRES_PASSWORD: '105021'
 ---
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-initdb-config
+  namespace: postgresql
+  labels:
+    app: postgres
+data:
+  init.sql: |
+    CREATE DATABASE keycloak;
+    CREATE USER keycloak WITH PASSWORD '105021';
+    GRANT ALL PRIVILEGES ON DATABASE keycloak TO keycloak;
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: postgres-pv-claim
@@ -51,6 +64,10 @@ spec:
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
           name: postgres-pvc
+        - mountPath: /dev/shm
+          name: cache-volume
+        - mountPath: /docker-entrypoint-initdb.d
+          name: postgres-initdb
         envFrom:
           - configMapRef:
               name: postgres-config
@@ -61,6 +78,13 @@ spec:
         - name: postgres-pvc
           persistentVolumeClaim:
             claimName: postgres-pv-claim
+        - name: cache-volume
+          emptyDir:
+            medium: Memory
+            sizeLimit: 256Mi
+        - name: postgres-initdb
+          configMap:
+            name: postgres-initdb-config
 ---
 apiVersion: v1
 kind: Service
