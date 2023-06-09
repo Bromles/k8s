@@ -8,4 +8,10 @@ cp config.yaml /etc/rancher/k3s/config.yaml
 
 sh k3s-install.sh
 
-kubectl apply -f canal.yaml
+kubectl apply -f ../resources/canal/canal.yaml
+kubectl apply -f ../resources/metallb/metallb-native.yaml
+kubectl apply -f ../resources/metallb/ip-address-pool.yaml
+kubectl apply -f ../resources/metallb/l2-advertisement.yaml
+kubectl apply -f ../resources/ingress-nginx/deploy.yaml
+kubectl annotate ingressclasses.networking.k8s.io nginx ingressclass.kubernetes.io/is-default-class="true"
+kubectl apply -f ../resources/longhorn/longhorn.yaml
