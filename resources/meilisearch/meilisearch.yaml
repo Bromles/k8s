@@ -22,7 +22,7 @@ metadata:
   labels:
     app: meilisearch
 spec:
-  storageClassName: local-path
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:

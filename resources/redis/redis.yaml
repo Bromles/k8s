@@ -91,7 +91,7 @@ spec:
         resources:
           requests:
             storage: 10Gi
-        storageClassName: local-path
+        storageClassName: longhorn
     - metadata:
         name: redis-data
       spec:
@@ -99,7 +99,7 @@ spec:
         resources:
           requests:
             storage: 10Gi
-        storageClassName: local-path
+        storageClassName: longhorn
 ---
 apiVersion: v1
 kind: Service
