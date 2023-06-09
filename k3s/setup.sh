@@ -7,3 +7,5 @@ mkdir -p /etc/rancher/k3s
 cp config.yaml /etc/rancher/k3s/config.yaml
 
 sh k3s-install.sh
+
+kubectl apply -f canal.yaml

@@ -3,3 +3,7 @@ write-kubeconfig-mode: "0600"
 disable:
   - traefik
   - servicelb
+  - local-storage
+flannel-backend: none
+cluster-cidr: 10.10.0.0/16
+disable-network-policy: true
