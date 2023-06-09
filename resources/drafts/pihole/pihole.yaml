@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pihole
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: pihole
+  namespace: kube-system
+spec:
+  repo: https://mojo2600.github.io/pihole-kubernetes/
+  chart: pihole
+  targetNamespace: pihole
+  set:
+    image.tag: "20.0"
+    service.type: "LoadBalancer"
+    postgresql.enabled: "false"
+    postgresql.postgresqlUsername: "bromles"
+    postgresql.postgresqlPassword: "105021"
+  valuesContent: |-
+    extraEnv: |
+      - name: KEYCLOAK_USER
+        value: "bromles"
+      - name: KEYCLOAK_PASSWORD
+        value: "105021"
+      - name: DB_VENDOR
+        value: postgres
+      - name: DB_ADDR
+        value: "192.168.5.202"
+      - name: DB_PORT
+        value: "5432"
