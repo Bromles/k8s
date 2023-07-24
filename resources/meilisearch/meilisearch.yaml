@@ -54,7 +54,7 @@ spec:
     spec:
       containers:
         - name: meilisearch
-          image: getmeili/meilisearch:v1.0
+          image: getmeili/meilisearch:v1.2
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
@@ -78,9 +78,25 @@ metadata:
   labels:
     app: meilisearch
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - port: 7700
-      targetPort: 7700
   selector:
     app: meilisearch
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: meilisearch-route
+  namespace: meilisearch
+spec:
+  parentRefs:
+  - name: global-gateway
+    namespace: global-gateway
+  rules:
+  - matches:
+    - path:
+        value: /meilisearch
+    backendRefs:
+    - name: meilisearch-service
+      port: 7700
