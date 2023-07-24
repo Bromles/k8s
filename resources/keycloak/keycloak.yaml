@@ -84,7 +84,7 @@ metadata:
     app: keycloak
 spec:
   type: ExternalName
-  externalName: postgres.postgresql.svc.cluster.local
+  externalName: postgres-svc.postgresql.svc.cluster.local
 ---
 apiVersion: v1
 kind: Service
