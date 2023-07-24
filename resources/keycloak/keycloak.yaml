@@ -84,23 +84,8 @@ metadata:
   labels:
     app: keycloak
 spec:
-  type: ClusterIP
----
-apiVersion: gateway.networking.k8s.io/v1alpha2
-kind: TCPRoute
-metadata:
-  name: postgresql-route
-  namespace: keycloak
-spec:
-  parentRefs:
-  - kind: Service
-    name: postgresql-service
-    port: 5432
-  rules:
-  - backendRefs:
-    - name: postgres-svc
-      port: 5432
-      namespace: postgresql
+  type: ExternalName
+  externalName: postgres-svc.postgresql.svc.cluster.local
 ---
 apiVersion: v1
 kind: Service
