@@ -19,3 +19,27 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
+      kinds:
+        - kind: HTTPRoute
+  - name: postgres-tcp-gw
+    port: 5432
+    protocol: TCP
+    allowedRoutes:
+      namespaces:
+        from: Selector
+        selector:
+          matchLabels:
+            postgresql-namespace: true
+      kinds:
+        - kind: TCPRoute
+  - name: redis-tcp-gw
+    port: 6379
+    protocol: TCP
+    allowedRoutes:
+      namespaces:
+        from: Selector
+        selector:
+          matchLabels:
+            redis-namespace: true
+      kinds:
+        - kind: TCPRoute

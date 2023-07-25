@@ -110,6 +110,7 @@ spec:
   parentRefs:
   - name: global-gateway
     namespace: global-gateway
+    sectionName: global-http-gw
   rules:
   - matches:
     - path:
