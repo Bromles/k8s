@@ -29,7 +29,7 @@ spec:
         from: Selector
         selector:
           matchLabels:
-            postgresql-namespace: true
+            postgresql-namespace: "true"
       kinds:
         - kind: TCPRoute
   - name: redis-tcp-gw
@@ -40,6 +40,6 @@ spec:
         from: Selector
         selector:
           matchLabels:
-            redis-namespace: true
+            redis-namespace: "true"
       kinds:
         - kind: TCPRoute

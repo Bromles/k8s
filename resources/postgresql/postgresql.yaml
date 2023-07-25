@@ -4,7 +4,7 @@ metadata:
   name: postgresql
   labels:
     istio-injection: enabled
-    postgresql-namespace: true
+    postgresql-namespace: "true"
 ---
 apiVersion: v1
 kind: ConfigMap
