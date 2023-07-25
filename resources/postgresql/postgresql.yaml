@@ -111,7 +111,7 @@ metadata:
 spec:
   parentRefs:
     - name: global-gateway
-      namespace: global-gateways
+      namespace: global-gateway
       sectionName: postgres-tcp-gw
   rules:
     - backendRefs:
