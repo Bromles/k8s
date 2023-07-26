@@ -15,5 +15,33 @@ spec:
   chart: harbor
   targetNamespace: harbor
   set:
-
-  valuesContent: |
+    externalUrl: "192.168.5.200/harbor"
+    database:
+      type: "external"
+      external:
+        harbor:
+          host: "192.168.5.201"
+          port: "5432"
+          db_name: "harbor"
+          username: "harbor"
+          password: "105021"
+        notary_signer:
+          host: "192.168.5.201"
+          port: "5432"
+          db_name: "notary_signer"
+          username: "harbor"
+          password: "105021"
+        notary_server:
+          host: "192.168.5.201"
+          port: "5432"
+          db_name: "notary_server"
+          username: "harbor"
+          password: "105021"
+    redis:
+      type: "external"
+      external:
+        host: "192.168.5.204"
+        registry_db_index: 1
+        jobservice_db_index: 2
+        chartmuseum_db_index: 3
+        trivy_db_index: 4
