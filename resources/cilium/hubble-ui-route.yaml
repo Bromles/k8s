@@ -7,7 +7,7 @@ spec:
   parentRefs:
   - name: global-gateway
     namespace: global-gateway
-    sectionName: global-http-gw
+    sectionName: hubble-ui-http-gw
   rules:
   - matches:
     - path:

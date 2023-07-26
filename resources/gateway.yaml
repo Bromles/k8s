@@ -21,6 +21,17 @@ spec:
         from: All
       kinds:
         - kind: HTTPRoute
+  - name: hubble-ui-http-gw
+    port: 8081
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: Selector
+        selector:
+          matchLabels:
+            kubernetes.io/metadata.name: kube-system
+      kinds:
+        - kind: HTTPRoute
   - name: postgres-tcp-gw
     port: 5432
     protocol: TCP
