@@ -37,12 +37,7 @@ spec:
     protocol: TCP
     allowedRoutes:
       namespaces:
-        from: Selector
-        selector:
-          matchLabels:
-            kubernetes.io/metadata.name: postgresql
-      kinds:
-        - kind: TCPRoute
+        from: All
   - name: redis-tcp-gw
     port: 6379
     protocol: TCP
