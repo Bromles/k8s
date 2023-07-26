@@ -11,7 +11,7 @@ spec:
   rules:
   - matches:
     - path:
-        value: /hubble-ui
+        value: /
     backendRefs:
     - name: hubble-ui
       port: 80
