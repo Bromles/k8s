@@ -62,7 +62,7 @@ spec:
             - name: http
               containerPort: 8081
           volumeMounts:
-            - mountPath: /nexus-data
+            - mountPath: /
               name: nexus-data
       volumes:
         - name: nexus-data
