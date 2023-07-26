@@ -64,6 +64,10 @@ spec:
           volumeMounts:
             - mountPath: /nexus-data
               name: nexus-data
+      securityContext:
+        runAsUser: 200
+        runAsGroup: 200
+        fsGroup: 200
       volumes:
         - name: nexus-data
           persistentVolumeClaim:
