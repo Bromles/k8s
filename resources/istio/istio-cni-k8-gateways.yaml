@@ -5,9 +5,3 @@ spec:
   components:
     cni:
       enabled: true
-    ingressGateways:
-      - name: istio-ingressgateway
-        enabled: false
-    egressGateways:
-      - name: istio-egressgateway
-        enabled: false
