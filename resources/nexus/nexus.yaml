@@ -61,6 +61,8 @@ spec:
           ports:
             - name: http
               containerPort: 8081
+            - name: docker-registry
+              containerPort: 5000
           volumeMounts:
             - mountPath: /nexus-data
               name: nexus-data
@@ -84,6 +86,7 @@ spec:
   type: ClusterIP
   ports:
     - port: 8081
+    - port: 5000
   selector:
     app: nexus
 ---
@@ -104,3 +107,21 @@ spec:
     backendRefs:
     - name: nexus-svc
       port: 8081
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: docker-registry-route
+  namespace: nexus
+spec:
+  parentRefs:
+  - name: global-gateway
+    namespace: global-gateway
+    sectionName: nexus-docker-http-gw
+  rules:
+  - matches:
+    - path:
+        value: /
+    backendRefs:
+    - name: nexus-svc
+      port: 5000
