@@ -4,7 +4,6 @@ metadata:
   name: redis
   labels:
     istio-injection: enabled
-    redis-namespace: "true"
 ---
 apiVersion: v1
 kind: ConfigMap
