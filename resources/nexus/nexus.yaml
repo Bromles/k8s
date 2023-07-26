@@ -54,7 +54,7 @@ spec:
       containers:
         - name: nexus
           image: bromles/nexus3:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           envFrom:
             - configMapRef:
                 name: nexus-config

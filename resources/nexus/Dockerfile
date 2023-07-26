@@ -23,11 +23,6 @@ RUN wget --quiet --output-document=/tmp/nexus.tar.gz "${NEXUS_DOWNLOAD_URL}" && 
 # https://github.com/sonatype/docker-nexus3/blob/master/Dockerfile
 FROM eclipse-temurin:8-jre-jammy
 
-# Image metadata
-# git commit
-LABEL org.opencontainers.image.revision="-"
-LABEL org.opencontainers.image.source="https://github.com/klo2k/nexus3-docker"
-
 # Setup: Rename App, Data and Work directory per official image
 # App directory (/opt/sonatype/nexus)
 COPY --from=downloader /tmp/sonatype /opt/sonatype
@@ -74,6 +69,6 @@ ENV NEXUS_HOME=/opt/sonatype/nexus \
     NEXUS_CONTEXT='' \
     SONATYPE_WORK=/opt/sonatype/sonatype-work \
     # Low `-Xms`, `-Xmx` default for Raspberry Pi
-    INSTALL4J_ADD_VM_PARAMS="-Xms1200m -Xmx1200m -XX:MaxDirectMemorySize=2g -Djava.util.prefs.userRoot=/nexus-data/javaprefs"
+    INSTALL4J_ADD_VM_PARAMS="-Xms1200m -Xmx1200m -XX:MaxDirectMemorySize=2g -XX:ActiveProcessorCount=4 -Djava.util.prefs.userRoot=/nexus-data/javaprefs"
 
 CMD ["/opt/sonatype/nexus/bin/nexus", "run"]
