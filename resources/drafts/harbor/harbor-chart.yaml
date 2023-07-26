@@ -14,7 +14,7 @@ spec:
   repo: https://helm.goharbor.io
   chart: harbor
   targetNamespace: harbor
-  set:
+  valuesContent: |-
     externalUrl: "192.168.5.200/harbor"
     database:
       type: "external"
