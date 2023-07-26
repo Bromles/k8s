@@ -36,7 +36,7 @@ metadata:
   name: redis-ss
   namespace: redis
 spec:
-  serviceName: redis-service
+  serviceName: redis-svc
   replicas: 1
   selector:
     matchLabels:
