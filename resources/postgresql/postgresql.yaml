@@ -51,7 +51,7 @@ metadata:
   name: postgres
   namespace: postgresql
 spec:
-  serviceName: postgres
+  serviceName: postgres-svc
   selector:
     matchLabels:
       app: postgres
