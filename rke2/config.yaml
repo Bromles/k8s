@@ -4,3 +4,4 @@ disable:
 cni: cilium
 tls-san:
   - rke2.bromles.home
+profile: "cis-1.23" 
