@@ -1,1 +1,6 @@
 write-kubeconfig-mode: "0600"
+disable:
+  - rke2-ingress-nginx
+cni: cilium
+tls-san:
+  - rke2.bromles.home
