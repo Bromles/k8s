@@ -5,10 +5,33 @@ metadata:
   namespace: monitoring
 spec:
   # Add fields here
-  retentionPeriod: "1"
+  retentionPeriod: "1m"
+  replicationFactor: 1
   vmstorage:
     replicaCount: 1
+    storageDataPath: "/vm-data"
+    storage:
+      volumeClaimTemplate:
+        spec:
+          resources:
+            request:
+              10Gi
+    resources:
+      limits:
+        cpu: "0.5"
+        memory: 500Mi
   vmselect:
     replicaCount: 1
+    cacheMountPath: "/select-cache"
+    storage:
+      volumeClaimTemplate:
+        spec:
+          resources:
+            requests:
+              storage: 2Gi
+    resources:
+      limits:
+        cpu: "0.3"
+        memory: 300Mi
   vminsert:
     replicaCount: 1
