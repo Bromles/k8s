@@ -5,7 +5,7 @@ metadata:
   namespace: monitoring
 spec:
   # Add fields here
-  retentionPeriod: "1m"
+  retentionPeriod: "30d"
   replicationFactor: 1
   vmstorage:
     replicaCount: 1
@@ -14,8 +14,8 @@ spec:
       volumeClaimTemplate:
         spec:
           resources:
-            request:
-              10Gi
+            requests:
+              storage: 10Gi
     resources:
       limits:
         cpu: "0.5"
