@@ -12,6 +12,7 @@ metadata:
     app.kubernetes.io/version: "10.0.2"
     app.kubernetes.io/managed-by: Helm
 data:
+  plugins: https://github.com/VictoriaMetrics/grafana-datasource/releases/download/v0.2.1/victoriametrics-datasource-v0.2.1.zip;victoriametrics-datasource
   grafana.ini: |
     [analytics]
     check_for_updates = true
@@ -24,12 +25,14 @@ data:
     logs = /var/log/grafana
     plugins = /var/lib/grafana/plugins
     provisioning = /etc/grafana/provisioning
+    [plugins]
+    allow_loading_unsigned_plugins = victoriametrics-datasource
     [server]
-    domain = chart-example.local
-    root_url = http://localhost:3000/monitoring/grafana/
-    serve_from_sub_path = true
-    enforce_domain = false
+    domain = ''
     enable_gzip = true
+    enforce_domain = false
+    root_url = http://localhost:3000/monitoring/grafana
+    serve_from_sub_path = true
   dashboardproviders.yaml: |
     apiVersion: 1
     providers:

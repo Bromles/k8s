@@ -5,3 +5,6 @@ spec:
   components:
     cni:
       enabled: true
+  meshConfig:
+    defaultConfig:
+      holdApplicationUntilProxyStarts: true
