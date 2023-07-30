@@ -25,8 +25,11 @@ data:
     plugins = /var/lib/grafana/plugins
     provisioning = /etc/grafana/provisioning
     [server]
-    domain = ''
-    root_url = http://localhost:3000/monitoring/grafana
+    domain = chart-example.local
+    root_url = http://localhost:3000/monitoring/grafana/
+    serve_from_sub_path = true
+    enforce_domain = false
+    enable_gzip = true
   dashboardproviders.yaml: |
     apiVersion: 1
     providers:

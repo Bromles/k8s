@@ -750,6 +750,9 @@ grafana.ini:
   server:
     domain: "{{ if (and .Values.ingress.enabled .Values.ingress.hosts) }}{{ .Values.ingress.hosts | first }}{{ else }}''{{ end }}"
     root_url: http://localhost:3000/monitoring/grafana
+    serve_from_sub_path: true
+    enforce_domain: false
+    enable_gzip: true
     ## grafana Authentication can be enabled with the following values on grafana.ini
     # server:
     # The full public facing url you use in browser, used for redirects and emails
