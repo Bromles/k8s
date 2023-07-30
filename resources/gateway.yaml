@@ -32,6 +32,15 @@ spec:
             kubernetes.io/metadata.name: kube-system
       kinds:
         - kind: HTTPRoute
+  - name: fluxcd-weave-ui-http-gw
+    port: 9011
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: Selector
+        selector:
+          matchLabels:
+            kubernetes.io/metadata.name: flux-system
   - name: nexus-docker-http-gw
     port: 5000
     protocol: HTTP
