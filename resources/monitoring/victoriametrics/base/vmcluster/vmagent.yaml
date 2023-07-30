@@ -13,5 +13,9 @@ spec:
   staticScrapeSelector: {}
   staticScrapeNamespaceSelector: {}
   replicaCount: 1
+  inlineScrapeConfig: |
+    - job_name: "prometheus"
+        static_configs:
+        - targets: ["10.254.254.254.9100"]
   remoteWrite:
-    - url: "http://vminsert-vmcluster.monitoring.svc.cluster.local:8480/insert/0/prometheus/api/v1/write"
+    - url: "http://vminsert-vmcluster:8480/insert/0/prometheus/api/v1/write"
