@@ -16,6 +16,8 @@ data:
   grafana.ini: |
     [analytics]
     check_for_updates = true
+    [dashboards]
+    min_refresh_interval = 1s
     [grafana_net]
     url = https://grafana.net
     [log]

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vmagent-additional-scrape-configs
+  namespace: monitoring
+stringData:
+  prometheus-additional.yaml: |
+    - job_name: "prometheus"
+      static_configs:
+      - targets: ["10.254.254.254:9100"]

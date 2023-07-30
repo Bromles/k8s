@@ -748,6 +748,8 @@ grafana.ini:
     mode: console
   grafana_net:
     url: https://grafana.net
+  dashboards:
+    min_refresh_interval: 1s
   plugins:
     allow_loading_unsigned_plugins: victoriametrics-datasource
   server:

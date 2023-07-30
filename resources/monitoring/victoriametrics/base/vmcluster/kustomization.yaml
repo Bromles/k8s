@@ -4,3 +4,4 @@ resources:
 - vmcluster.yaml
 - vmagent.yaml
 - httproute.yaml
+- additional-scrape-configs.yaml
