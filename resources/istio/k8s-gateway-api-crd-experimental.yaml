@@ -7129,7 +7129,7 @@ spec:
     plural: referencegrants
     shortNames:
     - refgrant
-    singular: referencegrant
+    singular: referencegrant.yaml
   scope: Namespaced
   versions:
   - additionalPrinterColumns:

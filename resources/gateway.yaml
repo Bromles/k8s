@@ -32,15 +32,24 @@ spec:
             kubernetes.io/metadata.name: kube-system
       kinds:
         - kind: HTTPRoute
-  - name: fluxcd-weave-ui-http-gw
-    port: 9011
-    protocol: HTTP
+  - name: argocd-tls-gw
+    port: 8443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+        - name: argocd-secret
+          kind: Secret
+          group: ""
+          namespace: argocd
     allowedRoutes:
+      kinds:
+        - kind: HTTPRoute
       namespaces:
         from: Selector
         selector:
           matchLabels:
-            kubernetes.io/metadata.name: flux-system
+            kubernetes.io/metadata.name: argocd
   - name: nexus-docker-http-gw
     port: 5000
     protocol: HTTP
