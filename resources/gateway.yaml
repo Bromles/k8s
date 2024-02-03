@@ -2,8 +2,6 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: global-gateway
-  labels:
-    istio-injection: enabled
 ---
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
@@ -11,7 +9,7 @@ metadata:
   name: global-gateway
   namespace: global-gateway
 spec:
-  gatewayClassName: istio
+  gatewayClassName: cilium
   listeners:
   - name: global-http-gw
     port: 80
@@ -32,24 +30,6 @@ spec:
             kubernetes.io/metadata.name: kube-system
       kinds:
         - kind: HTTPRoute
-  - name: argocd-tls-gw
-    port: 8443
-    protocol: HTTPS
-    tls:
-      mode: Terminate
-      certificateRefs:
-        - name: argocd-secret
-          kind: Secret
-          group: ""
-          namespace: argocd
-    allowedRoutes:
-      kinds:
-        - kind: HTTPRoute
-      namespaces:
-        from: Selector
-        selector:
-          matchLabels:
-            kubernetes.io/metadata.name: argocd
   - name: nexus-docker-http-gw
     port: 5000
     protocol: HTTP
@@ -61,17 +41,6 @@ spec:
             kubernetes.io/metadata.name: nexus
       kinds:
         - kind: HTTPRoute
-  - name: postgres-tcp-gw
-    port: 5432
-    protocol: TCP
-    allowedRoutes:
-      namespaces:
-        from: Selector
-        selector:
-          matchLabels:
-            kubernetes.io/metadata.name: postgresql
-      kinds:
-        - kind: TCPRoute
   - name: redis-tcp-gw
     port: 6379
     protocol: TCP
