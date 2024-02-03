@@ -60,7 +60,7 @@ kind: Ingress
 metadata:
   name: test-echo-ingress
 spec:
-  ingressClassName: cilium
+  ingressClassName: nginx
   rules:
   - http:
       paths:
