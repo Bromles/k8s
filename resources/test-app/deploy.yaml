@@ -54,3 +54,20 @@ spec:
     - port: 8080
   selector:
     app: test-echo
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-echo-ingress
+spec:
+  ingressClassName: cilium
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: test-echo-service
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix
