@@ -41,7 +41,8 @@ data:
     
     compression_level = 10
     
-    rpc_bind_addr = "[::]:3901"
+    rpc_bind_addr = "127.0.0.1:3901"
+    rpc_public_addr = "127.0.0.1:3901"
     # rpc_secret will be populated by the init container from a k8s secret object
     rpc_secret = "__RPC_SECRET_REPLACE__"
     
@@ -138,7 +139,6 @@ spec:
   serviceName: garage
   template:
     metadata:
-
       annotations:
         checksum/config: 148e6e25b7e47daa1f74287aeefa020bad54bc8bc48346936c6f4c8067658dcd
       labels:
