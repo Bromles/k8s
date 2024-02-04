@@ -90,7 +90,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: garage
-  namespace: default
+  namespace: garage
 roleRef:
   kind: ClusterRole
   name: manage-crds-default-release-name
