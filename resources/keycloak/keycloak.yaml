@@ -2,8 +2,6 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: keycloak
-  labels:
-    istio-injection: enabled
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -23,7 +21,7 @@ data:
   KC_DB_URL: "jdbc:postgresql://postgresql-service:5432/keycloak"
   KC_DB_USERNAME: "keycloak"
   KC_DB_PASSWORD: "105021"
-  KC_HTTP_RELATIVE_PATH: "/keycloak"
+  KC_HTTP_RELATIVE_PATH: "/"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -61,7 +59,7 @@ spec:
               containerPort: 8443
           livenessProbe:
             httpGet:
-              path: /keycloak/health/live
+              path: /health/live
               port: 8080
             initialDelaySeconds: 120
             periodSeconds: 5
@@ -69,7 +67,7 @@ spec:
             failureThreshold: 3
           readinessProbe:
             httpGet:
-              path: /keycloak/health/ready
+              path: /health/ready
               port: 8080
             initialDelaySeconds: 120
             periodSeconds: 5
@@ -85,7 +83,7 @@ metadata:
     app: keycloak
 spec:
   type: ExternalName
-  externalName: postgres-svc.postgresql.svc.cluster.local
+  externalName: main-cluster-rw.cnpg-main-cluster.svc.cluster.local
 ---
 apiVersion: v1
 kind: Service
@@ -95,26 +93,9 @@ metadata:
   labels:
     app: keycloak
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
-    - port: 8080
+    - port: 80
+      targetPort: 8080
   selector:
     app: keycloak
----
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: HTTPRoute
-metadata:
-  name: keycloak-route
-  namespace: keycloak
-spec:
-  parentRefs:
-  - name: global-gateway
-    namespace: global-gateway
-    sectionName: global-http-gw
-  rules:
-  - matches:
-    - path:
-        value: /keycloak
-    backendRefs:
-    - name: keycloak-service
-      port: 8080

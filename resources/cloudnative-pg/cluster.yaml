@@ -4,16 +4,6 @@ kind: Namespace
 metadata:
   name: cnpg-main-cluster
 ---
-apiVersion: v1
-kind: Secret
-type: kubernetes.io/basic-auth
-metadata:
-  name: main-cluster-app-user
-  namespace: cnpg-main-cluster
-data:
-  password: MTA1MDIx
-  username: YnJvbWxlcw==
----
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -29,10 +19,6 @@ spec:
   #               the switchover of the primary
   primaryUpdateStrategy: "unsupervised"
 
-  enableSuperuserAccess: true
-  superuserSecret:
-    name: main-cluster-app-user
-
   postgresql:
     pg_hba:
       - host all all all scram-sha-256
@@ -42,8 +28,12 @@ spec:
       database: bromles
       owner: bromles
       encoding: 'UTF8'
-      secret:
-        name: main-cluster-app-user
+      postInitSQL:
+        - alter user bromles with password '105021';
+        - alter user bromles with superuser;
+        - create user keycloak with encrypted password '105021';
+        - create database keycloak;
+        - alter database keycloak owner to keycloak;
 
   # Require 25Gi of space
   storage:
