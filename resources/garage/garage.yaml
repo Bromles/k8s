@@ -37,12 +37,6 @@ data:
     metadata_dir = "/mnt/meta"
     data_dir = "/mnt/data"
     
-    db_engine = "sled"
-    
-    block_size = 1048576
-    sled_cache_capacity = 134217728
-    sled_flush_every_ms = 2000
-    
     replication_mode = "3"
     
     compression_level = 10
@@ -51,10 +45,8 @@ data:
     # rpc_secret will be populated by the init container from a k8s secret object
     rpc_secret = "__RPC_SECRET_REPLACE__"
     
-    bootstrap_peers = []
-    
     [kubernetes_discovery]
-    namespace = "default"
+    namespace = "garage"
     service_name = "garage"
     skip_crd = false
     
@@ -66,10 +58,10 @@ data:
     [s3_web]
     bind_addr = "[::]:3902"
     root_domain = ".web.garage.tld"
-    index = "index.html"
     
     [admin]
     api_bind_addr = "[::]:3903"
+    admin_token = "ev6u6ibUndGtXdEh0SPH1VbLy52a7V5VrT1H4f8Z+E0="
 ---
 # Source: garage/templates/clusterrole.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -123,6 +115,10 @@ spec:
       targetPort: 3902
       protocol: TCP
       name: s3-web
+    - port: 3903
+      targetPort: 3903
+      protocol: TCP
+      name: admin
   selector:
     app.kubernetes.io/name: garage
 ---
