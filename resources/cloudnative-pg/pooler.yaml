@@ -1,14 +1,17 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Pooler
 metadata:
-  name: pooler-example-rw
+  name: main-cluster-pooler-rw
+  namespace: cnpg-main-cluster
 spec:
   cluster:
-    name: cluster-example
+    name: main-cluster
   instances: 2
   type: rw
   pgbouncer:
     poolMode: session
+    pg_hba:
+      - host all all all scram-sha-256
     parameters:
       max_client_conn: "1000"
       default_pool_size: "20"

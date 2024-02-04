@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   name: longhorn-ingress
   namespace: longhorn-system
-  annotations:
 spec:
   ingressClassName: cilium
   rules:
