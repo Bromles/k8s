@@ -134,7 +134,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: garage
-  replicas: 3
+  replicas: 1
   serviceName: garage
   template:
     metadata:
