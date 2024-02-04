@@ -1,0 +1,13 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMAuth
+metadata:
+  name: vmauth
+  namespace: monitoring
+spec:
+  selectAllByDefault: true
+  userNamespaceSelector: {}
+  userSelector: {}
+  unauthorizedAccessConfig:
+    - src_paths: ["/*"]
+  ingress:
+    class_name: cilium # <-- change this to your ingress-controller

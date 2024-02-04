@@ -1,49 +1,35 @@
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: HTTPRoute
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: vmui-route
+  name: vmselect-ingress
   namespace: monitoring
 spec:
-  parentRefs:
-  - name: global-gateway
-    namespace: global-gateway
-    sectionName: global-http-gw
+  ingressClassName: cilium
   rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /monitoring/vm/vmui
-    filters:
-      - type: URLRewrite
-        urlRewrite:
-          path:
-            type: ReplacePrefixMatch
-            replacePrefixMatch: /select/0/vmui
-    backendRefs:
-    - name: vmselect-vmcluster
-      port: 8481
+  - http:
+      paths:
+      - backend:
+          service:
+            name: vmselect-vmcluster
+            port:
+              number: 8481
+        path: /select/0/prometheus
+        pathType: Prefix
 ---
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: HTTPRoute
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: vmselect-route
+  name: vmui-ingress
   namespace: monitoring
 spec:
-  parentRefs:
-  - name: global-gateway
-    namespace: global-gateway
-    sectionName: global-http-gw
+  ingressClassName: cilium
   rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /monitoring/vm/prometheus
-    filters:
-      - type: URLRewrite
-        urlRewrite:
-          path:
-            type: ReplacePrefixMatch
-            replacePrefixMatch: /select/0/prometheus
-    backendRefs:
-    - name: vmselect-vmcluster
-      port: 8481
+  - http:
+      paths:
+      - backend:
+          service:
+            name: vmselect-vmcluster
+            port:
+              number: 8481
+        path: /select/0/vmui
+        pathType: Prefix
